@@ -1,57 +1,56 @@
 package quicksort
 
 type stringQuickSort struct {
-	val []string
 }
 
 func (this *stringQuickSort) Sort(val interface{}) {
 	low := 0
-	this.val = val.([]string)
-	hight := len(this.val) - 1
-	this.sort(low, hight)
+	svd := val.([]string)
+	hight := len(svd) - 1
+	this.sort(low, hight, svd)
 }
 
-func (this *stringQuickSort) sort(low, hight int) {
+func (this *stringQuickSort) sort(low, hight int, svd []string) {
 	// get first element as pivotitem
 	var pivotpoint int
 	if hight > low {
-		this.partition(low, hight, &pivotpoint)
-		this.sort(low, pivotpoint-1)
-		this.sort(pivotpoint+1, hight)
+		this.partition(low, hight, &pivotpoint, svd)
+		this.sort(low, pivotpoint-1, svd)
+		this.sort(pivotpoint+1, hight, svd)
 	}
 }
 
-func (this *stringQuickSort) medianOfThree(low, hight int) (string, int) {
+func (this *stringQuickSort) medianOfThree(low, hight int, svd []string) (string, int) {
 	m := (hight + low) / 2
 	if hight-low <= 1 {
-		if this.val[low] > this.val[hight] {
-			this.val[low], this.val[hight] = this.val[hight], this.val[low]
+		if svd[low] > svd[hight] {
+			svd[low], svd[hight] = svd[hight], svd[low]
 		}
-		return this.val[low], low
+		return svd[low], low
 	}
-	if this.val[low] > this.val[m] {
-		this.val[low], this.val[m] = this.val[m], this.val[low]
+	if svd[low] > svd[m] {
+		svd[low], svd[m] = svd[m], svd[low]
 	}
-	if this.val[low] > this.val[hight] {
-		this.val[low], this.val[hight] = this.val[hight], this.val[low]
+	if svd[low] > svd[hight] {
+		svd[low], svd[hight] = svd[hight], svd[low]
 	}
-	if this.val[m] > this.val[hight] {
-		this.val[m], this.val[hight] = this.val[hight], this.val[m]
+	if svd[m] > svd[hight] {
+		svd[m], svd[hight] = svd[hight], svd[m]
 	}
-	this.val[low+1], this.val[m] = this.val[m], this.val[low+1]
-	return this.val[low+1], low + 1
+	svd[low+1], svd[m] = svd[m], svd[low+1]
+	return svd[low+1], low + 1
 }
 
-func (this *stringQuickSort) partition(low, hight int, pivotpoint *int) {
+func (this *stringQuickSort) partition(low, hight int, pivotpoint *int, svd []string) {
 
-	pivotitem, j := this.medianOfThree(low, hight)
+	pivotitem, j := this.medianOfThree(low, hight, svd)
 	max := hight - 1
 	for i := low + 2; i <= max; i++ {
-		if this.val[i] < pivotitem {
-			this.val[i], this.val[j] = this.val[j], this.val[i]
+		if svd[i] < pivotitem {
+			svd[i], svd[j] = svd[j], svd[i]
 			j = i
 		} else {
-			this.val[max], this.val[i] = this.val[i], this.val[max]
+			svd[max], svd[i] = svd[i], svd[max]
 			max--
 			i--
 		}

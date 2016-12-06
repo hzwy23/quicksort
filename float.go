@@ -3,57 +3,56 @@ package quicksort
 //float32
 
 type floatQuickSort32 struct {
-	val []float32
 }
 
 func (this *floatQuickSort32) Sort(val interface{}) {
 	low := 0
-	this.val = val.([]float32)
-	hight := len(this.val) - 1
-	this.sort(low, hight)
+	svd := val.([]float32)
+	hight := len(svd) - 1
+	this.intsort(low, hight, svd)
 }
 
-func (this *floatQuickSort32) sort(low, hight int) {
+func (this *floatQuickSort32) intsort(low, hight int, svd []float32) {
 	// get first element as pivotitem
 	var pivotpoint int
 	if hight > low {
-		this.partition(low, hight, &pivotpoint)
-		this.sort(low, pivotpoint-1)
-		this.sort(pivotpoint+1, hight)
+		this.partition(low, hight, &pivotpoint, svd)
+		this.intsort(low, pivotpoint-1, svd)
+		this.intsort(pivotpoint+1, hight, svd)
 	}
 }
 
-func (this *floatQuickSort32) medianOfThree(low, hight int) (float32, int) {
+func (this *floatQuickSort32) medianOfThree(low, hight int, svd []float32) (float32, int) {
 	m := (hight + low) / 2
 	if hight-low <= 1 {
-		if this.val[low] > this.val[hight] {
-			this.val[low], this.val[hight] = this.val[hight], this.val[low]
+		if svd[low] > svd[hight] {
+			svd[low], svd[hight] = svd[hight], svd[low]
 		}
-		return this.val[low], low
+		return svd[low], low
 	}
-	if this.val[low] > this.val[m] {
-		this.val[low], this.val[m] = this.val[m], this.val[low]
+	if svd[low] > svd[m] {
+		svd[low], svd[m] = svd[m], svd[low]
 	}
-	if this.val[low] > this.val[hight] {
-		this.val[low], this.val[hight] = this.val[hight], this.val[low]
+	if svd[low] > svd[hight] {
+		svd[low], svd[hight] = svd[hight], svd[low]
 	}
-	if this.val[m] > this.val[hight] {
-		this.val[m], this.val[hight] = this.val[hight], this.val[m]
+	if svd[m] > svd[hight] {
+		svd[m], svd[hight] = svd[hight], svd[m]
 	}
-	this.val[low+1], this.val[m] = this.val[m], this.val[low+1]
-	return this.val[low+1], low + 1
+	svd[low+1], svd[m] = svd[m], svd[low+1]
+	return svd[low+1], low + 1
 }
 
-func (this *floatQuickSort32) partition(low, hight int, pivotpoint *int) {
+func (this *floatQuickSort32) partition(low, hight int, pivotpoint *int, svd []float32) {
 
-	pivotitem, j := this.medianOfThree(low, hight)
+	pivotitem, j := this.medianOfThree(low, hight, svd)
 	max := hight - 1
 	for i := low + 2; i <= max; i++ {
-		if this.val[i] < pivotitem {
-			this.val[i], this.val[j] = this.val[j], this.val[i]
+		if svd[i] < pivotitem {
+			svd[i], svd[j] = svd[j], svd[i]
 			j = i
 		} else {
-			this.val[max], this.val[i] = this.val[i], this.val[max]
+			svd[max], svd[i] = svd[i], svd[max]
 			max--
 			i--
 		}
@@ -68,52 +67,52 @@ type floatQuickSort64 struct {
 
 func (this *floatQuickSort64) Sort(val interface{}) {
 	low := 0
-	this.val = val.([]float64)
-	hight := len(this.val) - 1
-	this.sort(low, hight)
+	svd := val.([]float64)
+	hight := len(svd) - 1
+	this.intsort(low, hight, svd)
 }
 
-func (this *floatQuickSort64) sort(low, hight int) {
+func (this *floatQuickSort64) intsort(low, hight int, svd []float64) {
 	// get first element as pivotitem
 	var pivotpoint int
 	if hight > low {
-		this.partition(low, hight, &pivotpoint)
-		this.sort(low, pivotpoint-1)
-		this.sort(pivotpoint+1, hight)
+		this.partition(low, hight, &pivotpoint, svd)
+		this.intsort(low, pivotpoint-1, svd)
+		this.intsort(pivotpoint+1, hight, svd)
 	}
 }
 
-func (this *floatQuickSort64) medianOfThree(low, hight int) (float64, int) {
+func (this *floatQuickSort64) medianOfThree(low, hight int, svd []float64) (float64, int) {
 	m := (hight + low) / 2
 	if hight-low <= 1 {
-		if this.val[low] > this.val[hight] {
-			this.val[low], this.val[hight] = this.val[hight], this.val[low]
+		if svd[low] > svd[hight] {
+			svd[low], svd[hight] = svd[hight], svd[low]
 		}
-		return this.val[low], low
+		return svd[low], low
 	}
-	if this.val[low] > this.val[m] {
-		this.val[low], this.val[m] = this.val[m], this.val[low]
+	if svd[low] > svd[m] {
+		svd[low], svd[m] = svd[m], svd[low]
 	}
-	if this.val[low] > this.val[hight] {
-		this.val[low], this.val[hight] = this.val[hight], this.val[low]
+	if svd[low] > svd[hight] {
+		svd[low], svd[hight] = svd[hight], svd[low]
 	}
-	if this.val[m] > this.val[hight] {
-		this.val[m], this.val[hight] = this.val[hight], this.val[m]
+	if svd[m] > svd[hight] {
+		svd[m], svd[hight] = svd[hight], svd[m]
 	}
-	this.val[low+1], this.val[m] = this.val[m], this.val[low+1]
-	return this.val[low+1], low + 1
+	svd[low+1], svd[m] = svd[m], svd[low+1]
+	return svd[low+1], low + 1
 }
 
-func (this *floatQuickSort64) partition(low, hight int, pivotpoint *int) {
+func (this *floatQuickSort64) partition(low, hight int, pivotpoint *int, svd []float64) {
 
-	pivotitem, j := this.medianOfThree(low, hight)
+	pivotitem, j := this.medianOfThree(low, hight, svd)
 	max := hight - 1
 	for i := low + 2; i <= max; i++ {
-		if this.val[i] < pivotitem {
-			this.val[i], this.val[j] = this.val[j], this.val[i]
+		if svd[i] < pivotitem {
+			svd[i], svd[j] = svd[j], svd[i]
 			j = i
 		} else {
-			this.val[max], this.val[i] = this.val[i], this.val[max]
+			svd[max], svd[i] = svd[i], svd[max]
 			max--
 			i--
 		}
